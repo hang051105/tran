@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="web game nhóm D" />
+    <meta name="keywords" content="game, iceCream" />
+    <meta name="author" content="Nhóm D, Thu Hằng" />
+    <link rel="icon" type="image/png" sizes="32x32" href="icon.png"/>
+    <title>Ice Cream</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url('kem.png');
+            background-size: cover; /* Cover the entire page */
+            background-repeat: no-repeat; /* Do not repeat the image */
+            background-position: center; /* Center the image */
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 60px; /* Kích thước chữ */
+            font-weight: bold; /* Đậm */
+            color: #1f6fbf; /* Màu chữ */
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.1), 
+                        2px 2px 0 rgba(0,0,0,0.2), 
+                        3px 3px 0 rgba(0,0,0,0.3);
+           
+            display: inline-block; /* Cho phép căn giữa */
+            background-color: rgba(88, 232, 230, 0.5);
+    
+        }
+        #intro-container, #game-container {
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(54, 43, 69, 0.1);
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.5); /* Màu trắng với độ mờ 50% */
+            font-size: 20px;
+           
+
+        }
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff6b6b;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #b01a1a;
+        }
+        .storage-list, .recipe-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .storage-list li, .recipe-list li {
+            background-color: #f8f9fa;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .back-button {
+            margin-top: 20px;
+            background-color: #007bff;
+        }
+        #restock-form {
+            display: none;
+            margin-top: 20px;
+            text-align: left;
+            margin-left: 20px;
+        }
+        #item-select, #quantity-input {
+            width: 200px; /* Set the width to your desired value */
+            padding: 5px; /* Optional: Add some padding for better appearance */
+        }
+        #order-form {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        #customer-name {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        #customer-dialogue {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        #order-ingredients label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        #order-ingredients input {
+            width: 100px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        #order-ingredients input:focus {
+            border-color: #ff6b6b;
+        }
+
+        button {
+            margin: 10px 5px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff6b6b;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff4a4a;
+        }
+
+        button.cancel {
+            background-color: #007bff;
+        }
+
+        button.cancel:hover {
+            background-color: #0056b3;
+        }
+        #restock-form {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        select, input[type="number"] {
+            width: 200px; /* Maintain the desired width */
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus, input[type="number"]:focus {
+            border-color: #ff6b6b;
+        }
+
+        button {
+            margin: 10px 5px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff6b6b;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff4a4a;
+        }
+
+        button.cancel {
+            background-color: #007bff;
+        }
+
+        button.cancel:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Joe Biden's Ice Cream Emporium!</h1>
+    <div id="intro-container">
+        <p>Joe has always loved ice cream, but now his shop is in trouble. He needs your help to sell enough ice cream to raise 200 money in 3 days.</p>
+        <p>Every day, a famous leader from around the world will visit your shop!</p>
+        <p>Let's help Joe save his ice cream shop, one president at a time!</p>
+        <button id="start-button">Bắt đầu</button>
+    </div>
+    <div id="game-container" style="display: none;">
+               
+        <h2 id="day-info"></h2>
+        <div id="shop-options"></div>
+        <div id="recipe-display" style="display: none;"></div>
+        <div id="restock-form">
+            <h2>Nhập Hàng</h2>
+            <label for="item-select">Chọn Nguyên Liệu:</label>
+            <select id="item-select">
+                <option value="1">Chocolate (5 tiền mỗi cái)</option>
+                <option value="2">Sprinkles (10 tiền mỗi cái)</option>
+                <option value="3">Cones (2 tiền mỗi cái)</option>
+                <option value="4">Vanilla (4 tiền mỗi cái)</option>
+            </select>
+            <br>
+            <br>
+            <label for="quantity-input">Số lượng:</label>
+            <input type="number" id="quantity-input" min="1" value="1">
+            <br>
+            <br>
+            <div>
+                <button id="buy-button">Mua</button>            
+                <button id="cancel-button">Hủy</button>
+            </div>
+        </div>
+        <div id="order-form" style="display: none;">
+            <h2 id="customer-name"></h2>
+            <p id="customer-dialogue"></p>
+            <div id="order-ingredients"></div>
+            <button id="submit-order-button">Gửi Đơn Hàng</button>
+            <button id="cancel-order-button">Hủy Đơn Hàng</button>
+        </div>
+        <div id="order-ingredients"></div>
+    </div>
+    
+    <script>
+        class IceCream {
+            constructor(name, ingredients, basePrice) {
+                this.name = name;
+                this.ingredients = ingredients;
+                this.basePrice = basePrice;
+            }
+        }
+
+        class IceCreamShop {
+            constructor() {
+                this.storage = {
+                    Chocolate: 10,
+                    Sprinkles: 5,
+                    Cones: 10,
+                    Vanilla: 8,
+                };
+                this.money = 100;
+                this.day = 1;
+                this.dailySalesLimit = 3;
+                this.iceCreams = [
+                    new IceCream("Chocolate Delight", { Chocolate: 3, Cones: 1 }, 20),
+                    new IceCream("Sprinkle Surprise", { Sprinkles: 2, Cones: 1 }, 25),
+                    new IceCream("Vanilla Dream", { Vanilla: 2, Cones: 1 }, 15)
+                ];
+                this.presidents = [
+                    "Barack Obama", "Donald Trump", "Abraham Lincoln",
+                    "George Washington", "Vladimir Putin", 
+                    "Angela Merkel", "Emmanuel Macron", 
+                    "Queen Elizabeth II", "Nelson Mandela"
+                ];
+                this.dialogues = [
+                    "Obama walks in and says: 'Is this the Hope and Change flavor?'",
+                    "Trump demands: 'This better be the biggest, most beautiful ice cream ever. Believe me!'",
+                    "Lincoln exclaims: 'Four scoops and seven sprinkles ago...'",
+                    "Washington says proudly: 'I cannot tell a lie... I want chocolate!'",
+                    "Putin, in his usual calm voice: 'In Russia, we don't ask for ice cream, ice cream asks for us.'",
+                    "Merkel nods approvingly: 'This ice cream will bring unity to Europe!'",
+                    "Macron asks, 'Do you have something as sophisticated as French ice cream?'",
+                    "Queen Elizabeth II declares: 'One must enjoy ice cream with dignity.'",
+                    "Mandela smiles and says: 'After all those years, this ice cream is the sweetest freedom.'"
+                ];
+                
+                document.getElementById('start-button').addEventListener('click', () => {
+                    this.startGame();
+                });
+
+                document.getElementById('buy-button').addEventListener('click', () => {
+                    this.purchaseSupplies();
+                });
+                
+                document.getElementById('cancel-button').addEventListener('click', () => {
+                    this.cancelRestock();
+                });
+            }
+
+            startGame() {
+                document.getElementById('intro-container').style.display = 'none';
+                document.getElementById('game-container').style.display = 'block';
+                this.updateDayInfo();
+                this.manageShop();
+            }
+
+            updateDayInfo() {
+                document.getElementById('day-info').innerText = `--- Day ${this.day} --- Bạn có thể bán 3 kem hôm nay.`;
+                this.renderShopOptions();
+            }
+
+            renderShopOptions() {
+                const shopOptions = document.getElementById('shop-options');
+                shopOptions.innerHTML = `
+                    <button onclick="iceCreamShop.displayStorage()">Xem Kho Nguyên Liệu</button>
+                    <button onclick="iceCreamShop.takeCustomerOrder()">Nhận Đơn Hàng</button>
+                    <button onclick="iceCreamShop.showRestockForm()">Nhập Hàng</button>
+                    <button onclick="iceCreamShop.displayMoney()">Xem Tiền</button>
+                    <button onclick="iceCreamShop.displayRecipeBook()">Xem Sách Công Thức</button>
+                    <button onclick="iceCreamShop.nextDay()">Kết Thúc Ngày</button>
+                    <button onclick="iceCreamShop.endGame()">Thoát Game</button>
+                `;
+            }
+
+            showRestockForm() {
+                document.getElementById('restock-form').style.display = 'block';
+                document.getElementById('shop-options').style.display = 'none';
+            }
+
+            cancelRestock() {
+                document.getElementById('restock-form').style.display = 'none';
+                document.getElementById('shop-options').style.display = 'block';
+            }
+
+            purchaseSupplies() {
+                const itemSelect = document.getElementById('item-select');
+                const selectedIndex = itemSelect.selectedIndex;
+                const quantity = parseInt(document.getElementById('quantity-input').value);
+
+                let cost;
+                switch (selectedIndex) {
+                    case 0:
+                        cost = quantity * 5;
+                        if (this.money >= cost) {
+                            this.storage.Chocolate += quantity;
+                            this.money -= cost;
+                            alert(`Bạn đã mua ${quantity} Chocolate.`);
+                        } else {
+                            alert("Không đủ tiền.");
+                        }
+                        break;
+                    case 1:
+                        cost = quantity * 10;
+                        if (this.money >= cost) {
+                            this.storage.Sprinkles += quantity;
+                            this.money -= cost;
+                            alert(`Bạn đã mua ${quantity} Sprinkles.`);
+                        } else {
+                            alert("Không đủ tiền.");
+                        }
+                        break;
+                    case 2:
+                        cost = quantity * 2;
+                        if (this.money >= cost) {
+                            this.storage.Cones += quantity;
+                            this.money -= cost;
+                            alert(`Bạn đã mua ${quantity} Cones.`);
+                        } else {
+                            alert("Không đủ tiền.");
+                        }
+                        break;
+                    case 3:
+                        cost = quantity * 4;
+                        if (this.money >= cost) {
+                            this.storage.Vanilla += quantity;
+                            this.money -= cost;
+                            alert(`Bạn đã mua ${quantity} Vanilla.`);
+                        } else {
+                            alert("Không đủ tiền.");
+                        }
+                        break;
+                    default:
+                        alert("Lựa chọn không hợp lệ.");
+                }
+
+                this.cancelRestock();
+                this.renderShopOptions();
+            }
+
+            displayStorage() {
+                const container = document.getElementById('shop-options');
+                let storageDisplay = '<h2>Nguyên Liệu Trong Kho</h2><ul class="storage-list">';
+                for (const item in this.storage) {
+                    storageDisplay += `<li>${item}: ${this.storage[item]}</li>`;
+                }
+                storageDisplay += '</ul>';
+                container.innerHTML = storageDisplay;
+                this.addBackButton();
+            }
+
+            displayMoney() {
+                const container = document.getElementById('shop-options');
+                container.innerHTML = `<p><strong style="font-size: 24px;">Tiền: ${this.money}</strong></p>`;
+                this.addBackButton();
+            }
+
+            displayRecipeBook() {
+                const container = document.getElementById('shop-options');
+                let recipeDisplay = '<h2>Sách Công Thức Kem</h2><ul class="recipe-list">';
+                this.iceCreams.forEach((iceCream, index) => {
+                    recipeDisplay += `<li>${index + 1}. ${iceCream.name} (Giá Cơ Bản: ${iceCream.basePrice} tiền)</li>`;
+                    recipeDisplay += '<ul>';
+                    for (const ingredient in iceCream.ingredients) {
+                        recipeDisplay += `<li>${ingredient}: ${iceCream.ingredients[ingredient]}</li>`;
+                    }
+                    recipeDisplay += '</ul>';
+                });
+                recipeDisplay += '</ul>';
+                container.innerHTML = recipeDisplay;
+                this.addBackButton();
+            }
+
+            addBackButton() {
+                const container = document.getElementById('shop-options');
+                container.innerHTML += `<button class="back-button" onclick="iceCreamShop.renderShopOptions()">Quay lại</button>`;
+            }
+
+            takeCustomerOrder() {
+                if (this.dailySalesLimit <= 0) {
+                    alert("Bạn đã hoàn thành tất cả đơn hàng trong ngày hôm nay. Hẹn gặp lại ngày mai!");
+                    return;
+                }
+
+                const presidentIndex = Math.floor(Math.random() * this.presidents.length);
+                const president = this.presidents[presidentIndex];
+                const dialogue = this.dialogues[presidentIndex];
+                // Lấy đơn hàng ngẫu nhiên
+                const customerOrder = this.iceCreams[Math.floor(Math.random() * this.iceCreams.length)];
+                document.getElementById('order-ingredients').innerHTML = '';
+                // Cập nhật HTML với tên khách hàng và lời nói
+                document.getElementById('customer-name').innerText = `Khách hàng: ${president}`;
+                document.getElementById('customer-dialogue').innerText = dialogue;
+                document.getElementById('order-ingredients').innerHTML = `<strong>Đơn Hàng: ${customerOrder.name}</strong>`;
+                
+
+                // Hiển thị yêu cầu nguyên liệu
+                for (const ingredient in customerOrder.ingredients) {
+                    document.getElementById('order-ingredients').innerHTML += `
+                        <label>${ingredient} :</label>
+                        <input type="number" id="${ingredient}-input" min="0" value="0">
+                        <br>
+                    `;
+                }
+
+                // Hiển thị form đơn hàng
+                document.getElementById('order-form').style.display = 'block';
+                document.getElementById('shop-options').style.display = 'none';
+
+                // Xử lý gửi đơn hàng
+                document.getElementById('submit-order-button').onclick = () => {
+                    this.processOrder(customerOrder);
+                };
+
+                // Xử lý hủy đơn hàng
+                document.getElementById('cancel-order-button').onclick = () => {
+                    this.cancelOrder();
+                };
+            }
+
+            processOrder(customerOrder) {
+                const playerSelection = {};
+                for (const ingredient in customerOrder.ingredients) {
+                    playerSelection[ingredient] = parseInt(document.getElementById(`${ingredient}-input`).value) || 0;
+                }
+
+                if (this.verifyCrafting(customerOrder, playerSelection)) {
+                    for (const ingredient in playerSelection) {
+                        this.storage[ingredient] -= playerSelection[ingredient];
+                    }
+                    this.haggleIceCreamSale(customerOrder);
+                    this.dailySalesLimit--;
+                    alert("Đơn hàng thành công!");
+                } else {
+                    alert("Oops! Có vẻ như bạn đã sử dụng sai nguyên liệu!");
+                }
+
+                this.cancelOrder();
+            }
+
+            cancelOrder() {
+                document.getElementById('order-form').style.display = 'none';
+                document.getElementById('shop-options').style.display = 'block';
+            }
+
+
+            processOrder(customerOrder) {
+                const playerSelection = {};
+                for (const ingredient in customerOrder.ingredients) {
+                    playerSelection[ingredient] = parseInt(document.getElementById(`${ingredient}-input`).value) || 0;
+                }
+
+                if (this.verifyCrafting(customerOrder, playerSelection)) {
+                    for (const ingredient in playerSelection) {
+                        this.storage[ingredient] -= playerSelection[ingredient];
+                    }
+                    this.haggleIceCreamSale(customerOrder);
+                    this.dailySalesLimit--;
+                    alert("Đơn hàng thành công!");
+                } else {
+                    alert("Oops! Có vẻ như bạn đã sử dụng sai nguyên liệu!");
+                }
+
+                this.cancelOrder();
+            }
+
+            cancelOrder() {
+                document.getElementById('order-form').style.display = 'none';
+                document.getElementById('shop-options').style.display = 'block';
+            }
+
+            verifyCrafting(iceCream, playerSelection) {
+                for (const ingredient in iceCream.ingredients) {
+                    if (playerSelection[ingredient] !== iceCream.ingredients[ingredient]) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            haggleIceCreamSale(iceCream) {
+                const choice = parseInt(prompt("Bạn có muốn thương lượng để có giá tốt hơn không? (1 = Có, 2 = Không):"));
+                if (choice === 1) {
+                    const rng = Math.random() * 100;
+                    if (rng <= 50) {
+                        const newPrice = iceCream.basePrice * 1.3;
+                        this.money += newPrice;
+                        alert(`Thương lượng thành công! Bạn đã bán ${iceCream.name} với giá ${newPrice} tiền.`);
+                    } else if (rng <= 80) {
+                        const newPrice = iceCream.basePrice * 0.8;
+                        this.money += newPrice;
+                        alert(`Thương lượng không thành công! Bạn đã bán ${iceCream.name} với giá chỉ ${newPrice} tiền.`);
+                    } else {
+                        this.money += iceCream.basePrice;
+                        alert(`Kết quả trung lập, bán với giá cơ bản: ${iceCream.basePrice} tiền.`);
+                    }
+                } else {
+                    this.money += iceCream.basePrice;
+                    alert(`Bạn đã bán nó với giá ${iceCream.basePrice} tiền.`);
+                }
+            }
+
+            nextDay() {
+                const confirmEndDay = confirm("Bạn chắc chắn muốn kết thúc ngày?");
+                if (!confirmEndDay) return;
+
+                if (this.day < 3) {
+                    this.day++;
+                    this.dailySalesLimit = 3;
+                    alert(`\nNgày ${this.day} bắt đầu. Bạn có thể bán 3 kem hôm nay.`);
+                    this.updateDayInfo();
+                } else {
+                    this.endGame();
+                }
+            }
+
+            endGame() {
+                const confirmEndGame = confirm("Bạn chắc chắn muốn thoát game?");
+                if (!confirmEndGame) return;
+
+               
+                this.displayEnding();
+                window.close();
+            }
+
+            displayEnding() {
+                if (this.money >= 200) {
+                    alert(`Chúc mừng! Bạn đã tiết kiệm được ${this.money} tiền và giữ cho cửa hàng kem của Joe Biden mở!`);
+                } else if (this.money >= 150) {
+                    alert(`Thật tuyệt! Bạn đã tiết kiệm được ${this.money} tiền, và cửa hàng kem của Joe sẽ tiếp tục mở.`);
+                } else {
+                    alert(`Ôi không! Bạn chỉ tiết kiệm được ${this.money} tiền, quá xa so với yêu cầu để cứu cửa hàng.`);
+                }
+            }
+        }
+
+        const iceCreamShop = new IceCreamShop();
+    </script>
+   <footer style="
+   background-color: #696969;
+   color: #e2dfdf;
+   padding: 1px 1px; /* Giảm padding để khung nhỏ gọn */
+   font-size: 14px; /* Giảm kích thước chữ */
+   text-align: center;
+   position: fixed;
+   bottom: 0;
+   left: 0;
+   width: 100%;
+">
+   <p>&copy; 2024 Bản quyền: Group D  |  Liên hệ: <a href="mailto:email@company.com" style="color: #e2d5a2;">GroupD@gmail.com</a> | Số điện thoại: <a href="tel:+84123456789" style="color: #e6d9a6;">+84 123 456 789</a></p>
+   
+</footer>
+
+
+</body>
+</html>
